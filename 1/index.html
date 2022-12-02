@@ -1,0 +1,39 @@
+<html>
+    <input type="file" name="inputfile" id="inputfile">
+    <script>
+
+        document.getElementById('inputfile').addEventListener('change', function() {
+            let fr = new FileReader();
+            fr.onload=function(){
+                let data = fr.result.split('\r\n');
+                let allSets = [];
+                let currentArray = [];
+
+                for (let i = 0; i < data.length; i++){
+                    if (data[i]== '') { allSets.push(currentArray); currentArray = []; }
+                    else currentArray.push(Number(data[i]));
+                }
+
+                let maxValue = 0;
+                let maxElf = 0;
+                let sums = [];
+
+                for(let i = 0; i < allSets.length; i++){
+                    let sum = allSets[i].reduce((partialSum, a) => partialSum + a, 0);
+                    sums.push(sum);
+                    if (sum > maxValue){
+                        maxValue = sum;
+                        maxElf = i + 1;
+                    }
+                }
+
+                sums.sort(function(a, b){return b-a});
+                console.info(sums[0]+sums[1]+sums[2]);
+                console.info(maxValue,maxElf);
+            }
+              
+            fr.readAsText(this.files[0]);
+        })
+
+    </script>
+</html>
