@@ -1,0 +1,49 @@
+<html>
+    <input type="file" name="inputfile" id="inputfile">
+    <script>
+
+        document.getElementById('inputfile').addEventListener('change', function() {
+            let fr = new FileReader();
+            fr.onload=function(){
+                //A & X - Rock
+                //B & Y - Paper
+                //C & Z - Scissors
+
+                let data = fr.result
+                    .replaceAll('A','1')
+                    .replaceAll('B','2')
+                    .replaceAll('C','3')
+                    .replaceAll('X','1')
+                    .replaceAll('Y','2')
+                    .replaceAll('Z','3')
+                    .split('\r\n');
+                let pData = [];
+
+                for (let i = 0; i < data.length; i++){
+                    pData.push(data[i].split(' '));
+                }
+
+                let myScore = 0;
+
+                for (let i = 0; i < pData.length; i++){
+                    if (pData[i][0] == pData[i][1]) { 
+                        myScore += (3 + Number(pData[i][1]));  
+                        break;
+                    };
+                    if (pData[i][0]== '1' && pData[i][1] == '2'){
+                        myScore += Number(pData[i][1]);
+                    }
+                    if (pData[i][0]== '1' && pData[i][1] == '3'){
+                        myScore += 6 + Number(pData[i][1]);
+                    }
+
+                }
+
+                console.info(pData);
+            }
+              
+            fr.readAsText(this.files[0]);
+        });
+
+    </script>
+</html>
